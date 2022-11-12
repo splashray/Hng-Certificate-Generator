@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs");
+const escapeFilename = require('escape-filename');
 
 const handleCsv = async (req, res) => {
   const files = req.files;
@@ -7,25 +8,39 @@ const handleCsv = async (req, res) => {
   if (files) {
     const file = files.file;
     const fileName = files.file.name;
-    const directory = "../uploads";
-    if (!fs.existsSync("./uploads")) { //if dir does not exists, make a dir
-      fs.mkdirSync("uploads");
-    } else { //if it does, delete and remake it. To ensure we dont have multiple files in directory
-      fs.rmSync("uploads", { recursive: true }, (err) => {
-        if (err) throw err;
-      });
-      fs.mkdirSync("uploads");      
-    }
-    const filePath = path.join(__dirname, directory, fileName);
+    const uploadsDirectory = path.join(__dirname, '..', 'uploads');
 
-    file.mv(filePath, (err) => {
-      //save file in uploads directory
-      if (err) {
-        res.status(500).json({ error: err });
-      } else {
-        res.status(200).json({ message: "file uploaded" });
+    const filePath = path.join( uploadsDirectory, escapeFilename.escape(fileName) );
+
+    try{
+      // if file exists, an error is sent back
+      if( fs.existsSync(filePath) ){
+
+        return res.status(400).json({ message: "File exists" }).end();
+
       }
-    });
+
+      // if uploads directory does not exist, create it 
+      if (!fs.existsSync( uploadsDirectory )) {
+
+        //creates or recreates directory depending on the state of directory
+        fs.mkdirSync( uploadsDirectory ); 
+
+      }
+
+      file.mv(filePath, (err) => {
+        //save file in uploads directory
+        if (err) res.status(500).json({ error: err });
+        
+        res.status(200).json({ message: "file uploaded" });
+      });
+
+    }catch(err){
+
+      res.status(500).json({error: err});
+
+    }
+
   }
 };
 
