@@ -8,6 +8,7 @@ const fileExtLimiter = (req, res, next) => {
 
     return res.status(422).json({ status: "error", message });
   }
+  
   next();
 };
 
