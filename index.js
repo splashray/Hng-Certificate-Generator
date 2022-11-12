@@ -32,6 +32,10 @@ app.get("/", (req, res) => {
 app.use("/api/upload", filesPayloadExists, fileExtLimiter, csvRouter);
 app.use("/api/download", dataRouter);
 
+app.use("*", (req, res) => {
+  res.status(404).send("Invalid route");
+})
+
 app.listen(PORT, () => {
   console.log(`connected to backend - ${PORT}`);
 });
