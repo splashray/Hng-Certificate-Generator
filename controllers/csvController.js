@@ -12,8 +12,7 @@ const handleCsv = async (req, res) => {
     const csvData = Buffer.from(file.data).toString();
 
     // convert csvData to JSON and send back to client
-    const jsonOutput = await csvToJson()
-    .fromString(csvData);
+    const jsonOutput = await csvToJson().fromString(csvData);
     
     return res.status(200).json( jsonOutput ).end();
   }
