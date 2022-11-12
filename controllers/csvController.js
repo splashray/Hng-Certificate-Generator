@@ -7,12 +7,12 @@ const handleCsv = async (req, res) => {
     const file = files.file;
     const fileName = files.file.name;
     const directory = "../uploads";
-    if (!fs.existsSync([directory])) {
+    if (!fs.existsSync([directory])) {  //starting point, directory is expected not to exist, so make directory.
       fs.mkdirSync("uploads");
     }
     const filePath = path.join(__dirname, directory, fileName);
 
-    file.mv(filePath, (err) => {
+    file.mv(filePath, (err) => {  //save file in uploads directory
       if (err) {
         res.status(500).json({ error: err });
       } else {

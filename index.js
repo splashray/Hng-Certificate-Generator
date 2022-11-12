@@ -11,9 +11,6 @@ const PORT = process.env.port || 3000;
 const csvRouter = require("./routes/csvRouter");
 const dataRouter = require("./routes/dataRouter");
 
-const fileExtLimiter = require("./middleware/fileExtLimiter");
-const filesPayloadExists = require("./middleware/filePayLoadExist");
-
 //middleware
 app.use(
   cors({
@@ -23,7 +20,9 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(fileUpload());
+app.use(fileUpload()); //file upload parser
+const fileExtLimiter = require("./middleware/fileExtLimiter"); //middleware to enforce .csv extension on download endpoint
+const filesPayloadExists = require("./middleware/filePayLoadExist"); //middleware to enforce payload on upload endpoint
 
 //routes
 app.get("/", (req, res) => {
