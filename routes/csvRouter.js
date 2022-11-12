@@ -1,7 +1,8 @@
-import  express  from "express";
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
+const csvController = require('../controllers/csvController');
+
+router.post('/', csvController.handleCsv);
 
 
-
-
-export default router
+module.exports = router;
