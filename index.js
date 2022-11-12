@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.port || 3000;
 
 const csvRouter = require("./routes/csvRouter");
-const dataRouter = require("./routes/dataRouter");
+// const dataRouter = require("./routes/dataRouter");
 
 //middleware
 app.use(
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/upload", filesPayloadExists, fileExtLimiter, csvRouter);
-app.use("/api/download", dataRouter);
+// app.use("/api/download", dataRouter);
 
 app.listen(PORT, () => {
   console.log(`connected to backend - ${PORT}`);
