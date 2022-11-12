@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: HNG Certificate Generator API
+  description: Documentation for the HNG Certificate Generator API
+
+tags:
+  - name: Upload
+    description: CSV File Upload
+  - name: Download
+    description: Download CSV file in JSON format
+
+paths:
+  /api/upload:
+    post:
+      tags:
+        - Upload
+      summary: CSV file Upload
+      requestBody:
+        description: Upload of Certificate CSV file
+        content:
+          application/csv:
+            
+      responses:
+        "200":
+          $ref: '#/components/responses/String'
+
+  /api/download:
+    get:
+      tags:
+        - Download
+      summary: Download csv data in json format
+      responses:
+        "200":
+          $ref: '#/components/responses/CertificateFetch'
+
+
+components:
+  responses:
+    Message:
+      description: Message for file upload
+      content:
+        "application/json":
+          schema:
+            $ref: '#/components/schemas/String'
+    CertificateFetch:
+      description: Fetch Certificates
+      content:
+        "application/json":
+          schema:
+            $ref: '#/components/schemas/CertificateFetchResponse'
+
+schemas:
+    Message:
+      type: string
+    String:
+      type: string
+    DateTime:
+      type: string
+      format: 'date-time'
+    CertificateDetail:
+      - properties:
+          name:
+            $ref: '#/components/schemas/String'
+          organization:
+            $ref: '#/components/schemas/String'
+          award:
+            $ref: '#/components/schemas/String'
+          description:
+              $ref: '#/components/schemas/String'
+          date:
+            $ref: '#/components/schemas/DateTime'
+          certificate_number:
+            $ref: '#/components/schemas/String'  
+
+    CertificateFetchResponse:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificateDetail'                

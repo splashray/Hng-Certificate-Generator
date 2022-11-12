@@ -10,6 +10,7 @@ const PORT = process.env.port || 3000;
 
 const csvRouter = require("./routes/csvRouter");
 const dataRouter = require("./routes/dataRouter");
+const docsRouter = require("./routes/docs");
 
 //middleware
 app.use(
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to Certificate Api");
 });
 
+app.use("/api/docs", docsRouter)
 app.use("/api/upload", filesPayloadExists, fileExtLimiter, csvRouter);
 app.use("/api/download", dataRouter);
 
