@@ -1,32 +1,30 @@
 const path = require("path");
 const fs = require("fs");
+const csvToJson = require("csvtojson");
+const { isValidJsonOutput } = require("../utils");
 
 const handleCsv = async (req, res) => {
   const files = req.files;
-
+  
   if (files) {
     const file = files.file;
-    const fileName = files.file.name;
-    const directory = "../uploads";
-    if (!fs.existsSync("./uploads")) { //if dir does not exists, make a dir
-      fs.mkdirSync("uploads");
-    } else { //if it does, delete and remake it. To ensure we dont have multiple files in directory
-      fs.rmSync("uploads", { recursive: true }, (err) => {
-        if (err) throw err;
-      });
-      fs.mkdirSync("uploads");      
-    }
-    const filePath = path.join(__dirname, directory, fileName);
+    
+    // Convert the buffered csv data to readable format
+    const csvData = Buffer.from(file.data).toString();
 
-    file.mv(filePath, (err) => {
-      //save file in uploads directory
-      if (err) {
-        res.status(500).json({ error: err });
-      } else {
-        res.status(200).json({ message: "file uploaded" });
-      }
-    });
+    // convert csvData to JSON and send back to client
+    const jsonOutput = await csvToJson().fromString(csvData);
+
+    if(!isValidJsonOutput(jsonOutput)){
+      
+      return res.status(400).json({ message: 'Invalid input from uploaded csv file' }).end();
+
+    }
+    
+    return res.status(200).json( jsonOutput ).end();
   }
+
+  return res.status(400).json({message: "No csv file was uploaded"}).end();
 };
 
 module.exports = { handleCsv };
