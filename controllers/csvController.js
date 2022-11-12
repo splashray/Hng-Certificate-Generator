@@ -13,7 +13,7 @@ const handleCsv = async (req, res) => {
     } else { //if it does, delete and remake it. To ensure we dont have multiple files in directory
       fs.rmSync("uploads", { recursive: true }, (err) => {
         if (err) throw err;
-      });
+      }); 
       fs.mkdirSync("uploads");      
     }
     const filePath = path.join(__dirname, directory, fileName);

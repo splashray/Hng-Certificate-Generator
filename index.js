@@ -26,7 +26,7 @@ const filesPayloadExists = require("./middleware/filePayLoadExist"); //middlewar
 
 //routes
 app.get("/", (req, res) => {
-  res.send("Welcome to Certificate Api");
+  res.json("Welcome to Certificate Api");
 });
 
 app.use("/api/upload", filesPayloadExists, fileExtLimiter, csvRouter);
