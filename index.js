@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api/upload", csvRouter);
 // app.use("/api/download", dataRouter);
 
-app.use(errorController.notFound)
+app.use(errorController.notFound)  //send error message when requesting for invalid page
 
 app.listen(PORT, () => {
   console.log(`connected to backend - ${PORT}`);
