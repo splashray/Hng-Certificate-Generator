@@ -1,35 +1,31 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This page displays the API endpoints supported",
+        "description": "This page displays the API endpoints and how to interact with them",
         "version": "1.0.0",
-        "title": "HNG Certificate Generator API",
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        }
+        "title": "API Documentation"
     },
     "schemes": ["http", "https"],
-    "host": "hng-certificate-generator.cyclic.app",
+    "host": "https://hng-certificate-generator.cyclic.app",
     "basePath": "/",
     "paths" : {
         "/api/upload" : {
             "consumes": "multipart/form-data",
             "parameters":[{
-                "description": "[Example of CSV file content format] <img src='/csv-example.png' alt='Csv image exapmle' />",
+                "description": "[List of required fields in the CSV file] - Name, Name of organization, Award, Description, Signed, Date",
                 "in": "formData",
                 "name": "file",
                 "type": "file",
                 "required": true                
             }],
             "post" : {
-                "summary" : "accepts csv file upload",
+                "summary" : "This endpoint accepts a csv file upload",
                 "description": "A csv file is received from the post request and its contents are read, then converted into json and sent back to the client",
                 "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
-                        "links": "hng-certificate-generator.cyclic.app/api/upload",
+                        "links": "https://hng-certificate-generator.cyclic.app/api/upload",
                         "schema": {
                             "$ref": "#/definitions/JsonResponse"
                         }
@@ -59,50 +55,50 @@
                 "type": "object",
                 "required": [
                     "name",
-                    "organization",
+                    "name of organization",
                     "award",
                     "description",
-                    "date",
-                    "certificate_number"
+                    "signed",
+                    "date"
                 ],
                 "properties": {
                     "name": { 
                         "type" :"string"
                     },
-                    "organization":  { 
+                    "name of organization":  { 
                         "type" :"string"
                     },
-                    "award":  { 
+                    "award": { 
                         "type" :"string"
                     },
                     "description": { 
                         "type" :"string"
                     },
-                    "date": { 
+                    "signed": { 
                         "type" :"string"
                     },
-                    "certificate_number":  { 
+                    "date": { 
                         "type" :"string"
                     }
-            }
+                }
             },
             
             "example":[
                 {
                     "name": "jane doe",
-                    "organization": "zuri",
+                    "name of organization": "zuri",
                     "award": "certificate of completion",
                     "description": "this certificate is a proof of completion for HNG internship program",
-                    "date": "13-02-2022",
-                    "certificate_number": "hngi9x003575"
+                    "signed": "Fintech",
+                    "date": "13-02-2022"
                 },
                 {
                     "name": "john champ",
-                    "organization": "zuri",
+                    "name of organization": "zuri",
                     "award": "certificate of completion",
                     "description": "this certificate is a proof of completion for HNG internship program",
-                    "date": "13-02-2022",
-                    "certificate_number": "hngi9x0052725"
+                    "signed": "Fintech",
+                    "date": "13-02-2022"
                 }
             ]
         },
