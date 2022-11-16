@@ -1,36 +1,37 @@
-const express = require("express");
+const express = require('express')
 
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const fileUpload = require("express-fileupload");
+const bodyParser = require('body-parser')
+const morgan = require('morgan')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const fileUpload = require('express-fileupload')
 
-const app = express();
-const PORT = process.env.port || 3000;
+const app = express()
+const PORT = process.env.port || 3000
 
-const csvRouter = require("./routes/csvRouter");
+const csvRouter = require('./routes/csvRouter')
 // const dataRouter = require("./routes/dataRouter");
 
 //middleware
 app.use(
   cors({
-    origin: "*",
-  })
-);
-app.use(cookieParser());
-app.use(express.json());
-app.use(bodyParser.json());
-app.use(fileUpload()); //file upload parser
-
+    origin: '*',
+  }),
+)
+app.use(morgan('dev'))
+app.use(cookieParser())
+app.use(express.json())
+app.use(bodyParser.json())
+app.use(fileUpload()) //file upload parser
 
 //routes
-app.get("/", (req, res) => {
-  res.send("Welcome to Certificate Api");
-});
+app.get('/', (req, res) => {
+  res.send('Welcome to Certificate Api')
+})
 
-app.use("/api/upload", csvRouter);
+app.use('/api/upload', csvRouter)
 // app.use("/api/download", dataRouter);
 
 app.listen(PORT, () => {
-  console.log(`connected to backend - ${PORT}`);
-});
+  console.log(`connected to backend - ${PORT}`)
+})
