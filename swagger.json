@@ -1,0 +1,133 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This page displays the API endpoints and how to interact with them",
+        "version": "1.0.0",
+        "title": "API Documentation"
+    },
+    "schemes": ["http", "https"],
+    "host": "https://hng-certificate-generator.cyclic.app",
+    "basePath": "/",
+    "paths" : {
+        "/api/upload" : {
+            "consumes": "multipart/form-data",
+            "parameters":[{
+                "description": "[List of required fields in the CSV file] - Name, Name of organization, Award, Description, Signed, Date",
+                "in": "formData",
+                "name": "file",
+                "type": "file",
+                "required": true                
+            }],
+            "post" : {
+                "summary" : "This endpoint accepts a csv file upload",
+                "description": "A csv file is received from the post request and its contents are read, then converted into json and sent back to the client",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "links": "https://hng-certificate-generator.cyclic.app/api/upload",
+                        "schema": {
+                            "$ref": "#/definitions/JsonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "links": "",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Endpoint does not exist",
+                        "links": "",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidEndpointResponse"
+                        }
+                    }
+                }
+            }
+        }
+    }, 
+    "definitions": {
+        "JsonResponse":{
+            "type": "array",
+            "items":{
+                "type": "object",
+                "required": [
+                    "name",
+                    "name of organization",
+                    "award",
+                    "description",
+                    "signed",
+                    "date"
+                ],
+                "properties": {
+                    "name": { 
+                        "type" :"string"
+                    },
+                    "name of organization":  { 
+                        "type" :"string"
+                    },
+                    "award": { 
+                        "type" :"string"
+                    },
+                    "description": { 
+                        "type" :"string"
+                    },
+                    "signed": { 
+                        "type" :"string"
+                    },
+                    "date": { 
+                        "type" :"string"
+                    }
+                }
+            },
+            
+            "example":[
+                {
+                    "name": "jane doe",
+                    "name of organization": "zuri",
+                    "award": "certificate of completion",
+                    "description": "this certificate is a proof of completion for HNG internship program",
+                    "signed": "Fintech",
+                    "date": "13-02-2022"
+                },
+                {
+                    "name": "john champ",
+                    "name of organization": "zuri",
+                    "award": "certificate of completion",
+                    "description": "this certificate is a proof of completion for HNG internship program",
+                    "signed": "Fintech",
+                    "date": "13-02-2022"
+                }
+            ]
+        },
+        "InvalidResponse": {
+            "type": "object",
+            "description": "Invalid operation",
+            "required":true,
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "message": "Invalid input from uploaded csv file"
+            }
+        },
+        "InvalidEndpointResponse": {
+            "type": "object",
+            "description": "Invalid endpoint",
+            "required": true,
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "message": "Invalid route"
+            }
+
+        }
+    }
+}
